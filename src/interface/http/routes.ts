@@ -7,6 +7,8 @@ import { OrderController } from './controllers/orderController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TicketController } from './controllers/ticketController';
 import * as express from 'express';
+const multer = require('multer');
+const upload = multer();
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
@@ -312,6 +314,31 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.deleteTicket.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/ticket/:ticketId/upload-files',
+            upload.array('files'),
+
+            function TicketController_uploadFile(request: any, response: any, next: any) {
+            const args = {
+                    ticketId: {"in":"path","name":"ticketId","required":true,"dataType":"string"},
+                    files: {"in":"formData","name":"files","required":true,"dataType":"array","array":{"dataType":"file"}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new TicketController();
+
+
+              const promise = controller.uploadFile.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
