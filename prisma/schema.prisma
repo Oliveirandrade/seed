@@ -1,0 +1,72 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Ticket {
+  id           Int       @id @default(autoincrement())
+  authorId     String
+  supplierName String
+  title        String
+  orderNumber  Int
+  subject      String
+  status       String
+  opennedAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  messages     Message[]
+}
+
+model Message {
+  id          Int       @id @default(autoincrement())
+  when        String
+  from        String?
+  attachments Toolbar[]
+  ticket      Ticket?   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId    Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Toolbar {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  url         String
+  message     Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  messageId   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model OrderRequisition {
+  id          Int        @id @default(autoincrement())
+  dueDate     String
+  requestedBy String
+  productList Products[]
+  center      String
+  status      String
+  paymentType String
+  refreshList Boolean
+  submittedAt String
+  subtotal    Int
+  opennedAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Products {
+  id          Int               @id @default(autoincrement())
+  name        String
+  material    String
+  description String
+  price       Int
+  quantity    Int
+  image       String
+  order       OrderRequisition? @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId     Int?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}

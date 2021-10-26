@@ -1,0 +1,523 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Products": {
+				"properties": {
+					"orderId": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"material": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"OrderRequisition": {
+				"properties": {
+					"dueDate": {
+						"type": "string"
+					},
+					"requestedBy": {
+						"type": "string"
+					},
+					"productList": {
+						"items": {
+							"$ref": "#/components/schemas/Products"
+						},
+						"type": "array"
+					},
+					"center": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"paymentType": {
+						"type": "string"
+					},
+					"refreshList": {
+						"type": "boolean"
+					},
+					"submittedAt": {
+						"type": "string"
+					},
+					"subtotal": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Toolbar": {
+				"properties": {
+					"messageId": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Message": {
+				"properties": {
+					"when": {
+						"type": "string"
+					},
+					"from": {
+						"type": "string"
+					},
+					"attachments": {
+						"$ref": "#/components/schemas/Toolbar"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Ticket": {
+				"properties": {
+					"authorId": {
+						"type": "string"
+					},
+					"supplierName": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"orderNumber": {
+						"type": "number",
+						"format": "double"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"messages": {
+						"$ref": "#/components/schemas/Message"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "api",
+		"version": "0.0.1",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/order/create": {
+			"post": {
+				"operationId": "CreateOrder",
+				"responses": {
+					"201": {
+						"description": "Created with success!",
+						"content": {
+							"application/json": {
+								"schema": {
+									"additionalProperties": false,
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Order"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/OrderRequisition"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/order/message/create": {
+			"post": {
+				"operationId": "CreateProduct",
+				"responses": {
+					"201": {
+						"description": "Created with success!",
+						"content": {
+							"application/json": {
+								"schema": {
+									"additionalProperties": false,
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Order"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Products"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/order": {
+			"get": {
+				"operationId": "GetOrder",
+				"responses": {
+					"200": {
+						"description": "[]",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"additionalProperties": false,
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Order"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/order/{orderId}": {
+			"put": {
+				"operationId": "UpdateOrder",
+				"responses": {
+					"200": {
+						"description": "[]",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"additionalProperties": false,
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Order"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "orderId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/OrderRequisition"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/order/delete/{orderId}": {
+			"delete": {
+				"operationId": "DeleteOrder",
+				"responses": {
+					"200": {
+						"description": "Deleted with success!",
+						"content": {
+							"application/json": {
+								"schema": {
+									"additionalProperties": false,
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Order"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "orderId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/ticket/create": {
+			"post": {
+				"operationId": "CreateTicket",
+				"responses": {
+					"201": {
+						"description": "Created with success!",
+						"content": {
+							"application/json": {
+								"schema": {
+									"additionalProperties": false,
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"ticket"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Ticket"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/ticket/message/create": {
+			"post": {
+				"operationId": "CreateMessage",
+				"responses": {
+					"201": {
+						"description": "Created with success!",
+						"content": {
+							"application/json": {
+								"schema": {
+									"additionalProperties": false,
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"ticket"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Toolbar"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/ticket/{user}/{id}": {
+			"get": {
+				"operationId": "GetTicket",
+				"responses": {
+					"200": {
+						"description": "[]",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"additionalProperties": false,
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"ticket"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "user",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"operator",
+								"supplier"
+							]
+						}
+					},
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/ticket/{ticketId}": {
+			"put": {
+				"operationId": "UpdateTicket",
+				"responses": {
+					"200": {
+						"description": "[]",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"additionalProperties": false,
+											"type": "object"
+										},
+										{}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"ticket"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "ticketId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Ticket"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/ticket/delete/{ticketId}": {
+			"delete": {
+				"operationId": "DeleteTicket",
+				"responses": {
+					"200": {
+						"description": "Deleted with success!",
+						"content": {
+							"application/json": {
+								"schema": {
+									"additionalProperties": false,
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"ticket"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "ticketId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
