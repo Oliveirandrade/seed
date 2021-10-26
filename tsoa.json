@@ -1,13 +1,14 @@
 {
-    "entryFile": "src/server.ts",
-    "noImplicitAdditionalProperties": "throw-on-extras",
-    "controllerPathGlobs": ["src/**/*Controller.ts"],
-    "spec": {
-      "outputDirectory": "src/interface/http",
-      "specVersion": 3
-    },
-    "routes": {
-      "routesDir": "src/interface/http"
-    }
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": [
+    "src/**/*Controller.ts"
+  ],
+  "spec": {
+    "outputDirectory": "src/interface/http",
+    "specVersion": 3
+  },
+  "routes": {
+    "routesDir": "src/interface/http"
   }
-  
+}

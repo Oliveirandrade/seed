@@ -513,6 +513,52 @@
 					}
 				]
 			}
+		},
+		"/ticket/{ticketId}/upload-files": {
+			"post": {
+				"operationId": "UploadFile",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"ticket"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "ticketId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"files": {
+										"items": {
+											"type": "string",
+											"format": "binary"
+										},
+										"type": "array"
+									}
+								},
+								"required": [
+									"files"
+								]
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"servers": [

@@ -1,3 +1,5 @@
+import { writeFile, mkdir, access } from 'fs/promises';
+import { constants } from 'fs';
 import {
   Body,
   Path,
@@ -8,13 +10,14 @@ import {
   Route,
   SuccessResponse,
   Tags,
-  Delete
+  Delete,
+  UploadedFiles
 } from 'tsoa';
 import ticketOperator from '../../../app/ticket/ticketOperator';
 import { Ticket, Toolbar } from '../../../app/ticket/interfaces';
 
 @Route('ticket')
-@Tags("ticket")
+@Tags('ticket')
 export class TicketController extends Controller {
   @Post('create')
   @SuccessResponse('201', 'Created with success!')
@@ -54,5 +57,39 @@ export class TicketController extends Controller {
     return {
       msg: 'rule deleted'
     }
+  }
+
+  // UPLOAD
+  @Post("{ticketId}/upload-files")
+  public async uploadFile(
+    @Path() ticketId: string,
+    @UploadedFiles() files: Express.Multer.File[]
+  ): Promise<void> {
+    for await (const file of files) {
+      try {
+        const path = './public/uploads/ticket/' + ticketId
+        const date = new Date()
+
+        try {
+          await access(path, constants.R_OK | constants.W_OK)
+        } catch (err) {
+          mkdir(path)
+        }
+
+        writeFile(`${path}/${date.toLocaleString('pt')
+          .replace(/\//ig, '-')
+          .replace(' ', '-')}-${file.originalname}`, file.buffer).then(() => {
+            this.setStatus(200)
+            return 'Upload with success!'
+          }).catch((err) => {
+            console.log(err)
+            this.setStatus(500)
+            return 'Upload with error'
+          })
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
   }
 }
